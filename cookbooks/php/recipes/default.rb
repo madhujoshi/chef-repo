@@ -1,33 +1,21 @@
 #
-# Author::  Joshua Timberman (<joshua@opscode.com>)
-# Author::  Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: php
 # Recipe:: default
 #
-# Copyright 2009-2011, Opscode, Inc.
+# Copyright 2015, YOUR_COMPANY_NAME
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# All rights reserved - Do Not Redistribute
 #
 
-include_recipe "php::#{node['php']['install_method']}"
-
-# update the main channels
-php_pear_channel 'pear.php.net' do
-  action :update
+%w[ php5 libapache2-mod-php5 php5-mysql].each do |pkg|
+  package pkg
 end
 
-php_pear_channel 'pecl.php.net' do
-  action :update
+bash "test_php_installation" do
+  cwd "/var/www/html"
+  user "root"
+  code <<-EOF
+    echo "<?php phpinfo(); ?>"  > test.php
+  EOF
+  not_if do ::File.exists?("/var/www/html/test.php") end
 end
-
-include_recipe "php::ini"

@@ -2,19 +2,30 @@
 # Cookbook Name:: users
 # Recipe:: default
 #
-# Copyright 2009-2012, Opscode, Inc.
+# Copyright 2015, YOUR_COMPANY_NAME
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# All rights reserved - Do Not Redistribute
 #
 
-# Empty default recipe for including LWRPs.
+
+data_bag('users').each do |login|
+  account = data_bag_item('users', login)
+
+  user(login) do
+    shell     account['shell']
+    comment   account['comment']
+    home      account['home']
+    supports  :manage_home => true
+  end
+
+  directory "#{account['home']}/.ssh" do
+    owner login
+  end
+
+  file "#{account['home']}/.ssh/authorized_keys" do
+    owner login
+    mode '644'
+    content account['ssh_keys']
+  end
+
+end

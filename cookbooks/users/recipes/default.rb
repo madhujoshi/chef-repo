@@ -10,6 +10,7 @@
 
 data_bag('users').each do |login|
   account = data_bag_item('users', login)
+  ssh_key = account['ssh_keys']
 
   user(login) do
     shell     account['shell']
@@ -25,7 +26,7 @@ data_bag('users').each do |login|
   file "#{account['home']}/.ssh/authorized_keys" do
     owner login
     mode '644'
-    content account['ssh_keys']
+    content "#{ssh_key}"
   end
 
 end

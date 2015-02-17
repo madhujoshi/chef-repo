@@ -10,7 +10,7 @@ case node.platform
   when "ubuntu","debian"                                        
     package "apache2"
 	
-    template "/var/www/index.html" do
+    template "/var/www/html/index.html" do
     	source "index.html.erb"
     	mode "0655"
     end

@@ -1,9 +1,0 @@
-{
-  "id"       : "sammy",
-  "comment"  : "Sammy Salsa",
-  "home"     : "/home/sammy",
-  "groups"   : ["sysadmin"],
-  "ssh_keys" : [
-    "AAA123...xyz== foo"
-  ]
-}

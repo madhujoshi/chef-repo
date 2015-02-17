@@ -1,9 +1,0 @@
-{
-  "id"       : "bobby",
-  "comment"  : "Bobby Balboa",
-  "home"     : "/home/bobby",
-  "groups"   : ["sysadmin"],
-  "ssh_keys" : [
-    "BBB GGu9xx00222"
-  ]
-}
